@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <climits>
 #include <cmath>
+#include <iostream>
 #include <vector>
 using namespace std;
 
@@ -11,8 +12,7 @@ public:
     sort(num.begin(), num.end());
     for (int i = 0; i < num.size(); i++) {
       for (int j = i + 1; j < num.size(); j++) {
-        int k = target - i - j;
-        if (k < num[j]) continue;
+        int k = target - num[i] - num[j];
         int l = 0, r = num.size() - 1;
         while (l <= r) {
           int mid = (l + r) / 2;
@@ -23,9 +23,10 @@ public:
         }
         if (l <= j) l = j + 1;
         if (l > j && l < num.size()) {
-          if (abs(num[i] + num[j] + num[l] - target) < abs(best - target))
+          if (abs(num[i] + num[j] + num[l] - target) < abs(best - target)) {
             best = num[i] + num[j] + num[l];
-          if (best == 0) return 0;
+          }
+          if (best == target) return best;
         }
         if (l - 1 > j && abs(num[i] + num[j] + num[l - 1] - target) <
             abs(best - target))
@@ -35,3 +36,11 @@ public:
     return best;
   }
 };
+
+int main() {
+  int a[] = {0, 5, -1, -2, 4, -1, 0, -3, 4, -5};
+  vector<int> num(a, a + 10);
+  Solution s;
+  cout << s.threeSumClosest(num, 1) << endl;
+  return 0;
+}
