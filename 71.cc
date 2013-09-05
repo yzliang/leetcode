@@ -4,8 +4,8 @@ public:
         vector<string> names;
         int i = 1;
         while (i < path.size()) {
-            int j = i + 1;
-            while (j < path.size() && j != '/') j++;
+            int j = i;
+            while (j < path.size() && path[j] != '/') j++;
             string name = path.substr(i, j - i);
             if (name == "." || name.empty()) {
                 // Do nothing.
@@ -14,7 +14,7 @@ public:
             } else {
                 names.push_back(name);
             }
-            i = j;
+            i = j + 1;
         }
         string ret;
         for (int i = 0; i < names.size(); i++) {
