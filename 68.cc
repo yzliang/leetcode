@@ -5,7 +5,7 @@ public:
         vector<string>::iterator iter1 = words.begin();
         while (iter1 != words.end()) {
             vector<string>::iterator iter2 = iter1 + 1;
-            int sum_lengths = iter1->size();
+            int sum_length = iter1->size();
             while (iter2 != words.end() &&
                     sum_length + (iter2 - iter1) + iter2->size() <= L) {
                 sum_length += iter2->size();
@@ -30,12 +30,13 @@ public:
                 int num_extra_space = (L - sum_length) % (num_words - 1);
                 for (int i = 1; i < num_words; i++) {
                     line.append(i <= num_extra_space ? num_space + 1 : num_space,
-                        '0');
+                        ' ');
                     line += *(iter1 + i);
                 }
             }
             iter1 = iter2;
             text.push_back(line);
         }
+        return text;
     }
 };
