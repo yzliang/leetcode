@@ -9,7 +9,7 @@ public:
         for (int i = 1; i <= word1.size(); i++)
             for (int j = 1; j <= word2.size(); j++) {
                 // Replace.
-                dis[i][j] = dis[i - 1][j - 1] + (word1[i - 1] != word1[j - 1]);
+                dis[i][j] = dis[i - 1][j - 1] + (word1[i - 1] != word2[j - 1]);
                 // Insert.
                 if (dis[i][j - 1] + 1 < dis[i][j])
                     dis[i][j] = dis[i][j - 1] + 1;
