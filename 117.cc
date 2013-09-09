@@ -10,28 +10,36 @@ struct TreeLinkNode {
 class Solution {
 public:
   void connect(TreeLinkNode *root) {
-    int level = max_level(root);
-    for (int i = 1; i < level; i++) {
-      TreeLinkNode* pre_node = NULL;
-      for (int j = 0; j < (1 << i); j++) {
-        int code = j;
-        TreeLinkNode* node = root;
-        for (int k = i - 1; k >= 0; k--) {
-          node = (code & (1 << k)) ? node->right : node->left;
-          if (!node) break;
+    TreeLinkNode* node = root;
+    while (true) {
+      // Find the leftmost child in the next level.
+      while (node && !node->left && !node->right) {
+        node = node->next;
+      }
+      if (!node) break;
+      TreeLinkNode* tail = node->left ? node->left : node->right;
+      TreeLinkNode* head = tail;
+      // Connect.
+      while (node) {
+        if (node->left == tail && node->right) {
+          tail->next = node->right;
+          tail = node->right;
+          continue;
         }
-        if (pre_node) {
-          pre_node->next = node;
+        node = node->next;
+        while (node && !node->left && !node->right) {
+          node = node->next;
         }
-        if (node) {
-          pre_node = node;
+        if (!node) break;
+        if (node->left) {
+          tail->next = node->left;
+          tail = node->left;
+        } else {
+          tail->next = node->right;
+          tail = node->right;
         }
       }
+      node = head;
     }
-  }
-
-  int max_level(TreeLinkNode* root) {
-    if (!root) return 0;
-    return max(max_level(root->left), max_level(root->right)) + 1;
   }
 };
