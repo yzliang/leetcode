@@ -1,34 +1,25 @@
 class Solution {
 public:
   double findMedianSortedArrays(int a[], int m, int b[], int n) {
-    if (n + m == 0) return 0;
-    if ((n + m) % 2) {
-      return findKthNumber(a, m, b, n, (n + m) / 2 + 1);
-    } else {
-      return (findKthNumber(a, m, b, n, (n + m) / 2) +
-          findKthNumber(a, m, b, n, (n + m) / 2 + 1)) / 2.0;
+    if (n == 0 && m == 0) return 0;
+    int half = (n + m) / 2;
+    int l = max(0, half - n), r = min(m - 1, half);
+    while (l <= r) {
+      int mid = (l + r) / 2;
+      if (half - mid > 0 && a[mid] < b[half - mid - 1]) {
+        l = mid + 1;
+      } else if (half - mid == n || a[mid] <= b[half - mid]) {
+        if ((n + m) % 2) {
+          return a[mid];
+        } else {
+          if (mid == 0) return (a[mid] + b[half - mid - 1]) / 2.0;
+          if (half - mid == 0) return (a[mid] + a[mid - 1]) / 2.0;
+          return (max(a[mid - 1], b[half - mid - 1]) + a[mid]) / 2.0;
+        }
+      } else {
+        r = mid - 1;
+      }
     }
-  }
-
-  int findKthNumber(int* a, int m, int* b, int n, int k) {
-    if (m == 0) return b[k - 1];
-    if (n == 0) return a[k - 1];
-    // Find first b[i] >= a[m / 2].
-    int b_l = 0, b_r = n - 1;
-    while (b_l <= b_r) {
-      int mid = (b_l + b_r) / 2;
-      if (b[mid] < a[m / 2])
-        b_l = mid + 1;
-      else 
-        b_r = mid - 1;
-    }
-    // Speical treatment for m == 1, b_l == 0.
-    if (m == 1 && b_l == 0)
-      return k == 1 ? a[0] : b[k - 2];
-    else if (k <= m / 2 + b_l)
-      return findKthNumber(a, m / 2, b, b_l, k);
-    else
-      return findKthNumber(&a[m / 2], m - m / 2, &b[b_l], n - b_l,
-          k - m / 2 - b_l);
+    return findMedianSortedArrays(b, n, a, m);
   }
 };
