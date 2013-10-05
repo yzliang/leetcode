@@ -24,23 +24,17 @@ public class Solution {
         // Find triplets.
         for (int i = 0; i < total; i++) {
             for (int j = i; j < total; j++) {
-                int k = 0 - num[i] - num[j];
-                if (k < num[j]) continue;
-                if (!numCount.containsKey(k)) continue;
+                int num1 = num[i], num2 = num[j], num3 = 0 - num1 - num2;
+                if (num3 < num2) continue;
+                if (!numCount.containsKey(num3)) continue;
                 // Validatation.
-                Integer common = null;
-                if (num[i] == num[j] || num[i] == k) common = num[i];
-                if (num[j] == k) common = num[j];
-                if (common != null) {
-                    Integer freq = numCount.get(common);
-                    if (freq == null) continue;
-                    if (common == 0 && freq < 3) continue;
-                    if (freq < 2) continue;
-                }
+                if (num1 == num3 && numCount.get(num1) < 3)
+                    continue;
+                if (num1 == num2 && numCount.get(num1) < 2 ||
+                        num2 == num3 && numCount.get(num2) < 2)
+                    continue;
                 ArrayList<Integer> triplet = new ArrayList<Integer>(3);
-                triplet.add(num[i]);
-                triplet.add(num[j]);
-                triplet.add(k);
+                Collections.addAll(triplet, num1, num2, num3);
                 triplets.add(triplet);
             }
         }
