@@ -23,13 +23,10 @@ public class Solution {
             }
         }
         int upper = r;
-        int[] ans = new int[2];
         if (lower <= upper) {
-            ans[0] = lower;
-            ans[1] = upper;
+            return new int[]{lower, upper};
         } else {
-            ans[0] = ans[1] = -1;
+            return new int[]{-1, -1};
         }
-        return ans;
     }
 }
