@@ -9,17 +9,30 @@
 public class Solution {
     public void connect(TreeLinkNode root) {
         if (root == null) return;
-        ArrayList<TreeLinkNode> nodes = new ArrayList<TreeLinkNode>();
-        nodes.add(root);
-        while (!nodes.isEmpty()) {
-            ArrayList<TreeLinkNode> nextNodes = new ArrayList<TreeLinkNode>();
-            for (TreeLinkNode node : nodes) {
-                if (node.left != null) nextNodes.add(node.left);
-                if (node.right != null) nextNodes.add(node.right);
+        TreeLinkNode head = root;
+        while (head != null) {
+            TreeLinkNode newHead = null;
+            TreeLinkNode newTail = null;
+            while (head != null) {
+                if (head.left != null) {
+                    if (newHead == null) {
+                        newHead = newTail = head.left;
+                    } else {
+                        newTail.next = head.left;
+                        newTail = head.left;
+                    }
+                }
+                if (head.right != null) {
+                    if (newHead == null) {
+                        newHead = newTail = head.right;
+                    } else {
+                        newTail.next = head.right;
+                        newTail = head.right;
+                    }
+                }
+                head = head.next;
             }
-            for (int i = 0; i < nextNodes.size() - 1; i++)
-                nextNodes.get(i).next = nextNodes.get(i + 1);
-            nodes = nextNodes;
+            head = newHead;
         }
     }
 }
