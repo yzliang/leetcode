@@ -24,7 +24,8 @@ public class Solution {
             }
         }
         // Enumerate.
-        ArrayList<ArrayList<String>> partitions = new ArrayList<ArrayList<String>>();
+        ArrayList<ArrayList<String>> partitions =
+            new ArrayList<ArrayList<String>>();
         findPartition(s, 0, new ArrayList<String>(), palIndex, partitions);
         return partitions;
     }
